@@ -117,7 +117,7 @@ public class SurenessJakartaServletFilter implements Filter {
      */
     private static void responseWrite(ResponseEntity content, ServletResponse response) {
         response.setCharacterEncoding("UTF-8");
-        ((HttpServletResponse)response).setStatus(content.getStatusCodeValue());
+        ((HttpServletResponse)response).setStatus(content.getStatusCode().value());
         content.getHeaders().forEach((key, value) ->
                 ((HttpServletResponse) response).addHeader(key, value.get(0)));
         try (PrintWriter printWriter = response.getWriter()) {
