@@ -1,6 +1,6 @@
 package com.usthe.sureness.demo
 
-import org.dromara.sureness.DefaultSurenessConfig
+import org.dromara.sureness.SurenessDefaultConfig
 import org.dromara.sureness.mgt.SurenessSecurityManager
 import org.dromara.sureness.processor.exception.*
 import org.dromara.sureness.util.SurenessContextHolder
@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
 @EngineAPI
 fun Application.main() {
     // init sureness default config
-    DefaultSurenessConfig()
+    SurenessDefaultConfig()
 
     intercept(ApplicationCallPipeline.Call) {
         try {
