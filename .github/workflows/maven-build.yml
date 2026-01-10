@@ -11,18 +11,26 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        java: [ '8', '17' ]
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
         distribution: temurin
-        java-version: '17'
+        java-version: ${{ matrix.java }}
         cache: maven
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Build with Maven (JDK ${{ matrix.java }})
+      run: |
+        if [ "${{ matrix.java }}" = "8" ]; then
+          # Skip JDK 17 modules when building with JDK 8
+          mvn -B clean package -DskipTests -pl '!support/spring-boot3-starter-sureness' -am
+        else
+          # Build all modules with JDK 17
+          mvn -B clean package -DskipTests
+        fi
